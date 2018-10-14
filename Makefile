@@ -27,13 +27,28 @@ push: image ## Pushes the image to dockerhub, REQUIRES SPECIAL PERMISSION
 	$(SUDO_CMD) docker push "$(IMAGE):$(TAG)"
 
 deploy-app: image ## Deploys app with helm
-	app upgrade --install app-skeleton --namespace app-skeleton \
+	helm upgrade --install app-skeleton --namespace app-skeleton \
 	charts/osbapiapp \
-	--set image.repository="$(IMAGE)",image.tag=="$(TAG)",image.pullPolicy="$(PULL)"
+	--set image.repository="$(IMAGE)",image.tag="$(TAG)",image.pullPolicy="$(PULL)"
 
 remove-app: ## Removes app with helm
 	helm delete --purge app-skeleton
 	kubectl delete ns app-skeleton
+
+create-ns: ## Creates a namespace
+	kubectl create ns app-skeleton
+
+provision-svc: create-ns ## Provisions a service instance
+	kubectl apply -f manifests/service-instance.yaml
+
+unprovision-svc: ## Removes a service instance
+	kubectl delete -f manifests/service-instance.yaml
+
+bind-svc: ## Creates a binding
+	kubectl apply -f manifests/service-binding.yaml
+
+unbind-svc: ## Removes a binding
+	kubectl delete -f manifests/service-binding.yaml
 
 help: ## Shows the help
 	@echo 'Usage: make <OPTIONS> ... <TARGETS>'
@@ -44,4 +59,4 @@ help: ## Shows the help
         awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 	@echo ''
 
-.PHONY: build linux image clean push deploy-app remove-app help
+.PHONY: build linux image clean push deploy-app remove-app provision-svc unprovision-svc bind-svc unbind-svc help
