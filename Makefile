@@ -33,10 +33,12 @@ deploy-app: image ## Deploys app with helm
 
 remove-app: ## Removes app with helm
 	helm delete --purge app-skeleton
-	kubectl delete ns app-skeleton
 
 create-ns: ## Creates a namespace
 	kubectl create ns app-skeleton
+
+remove-ns: ## Removes a namespace
+	kubectl delete ns app-skeleton
 
 provision-svc: create-ns ## Provisions a service instance
 	kubectl apply -f manifests/service-instance.yaml
