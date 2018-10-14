@@ -1,6 +1,7 @@
 package main
 
 import (
+    "fmt"
     "log"
     "time"
     "github.com/cclin81922/osbapi-sdk/pkg/osbapisdk"
@@ -8,7 +9,8 @@ import (
 
 func main() {
     for now := range time.Tick(3 * time.Second) {
-        reply, err := osbapisdk.Echo(now)
+        message := fmt.Sprintf("%s", now)
+        reply, err := osbapisdk.Echo(message)
         if err != nil {
             log.Println(err)
         } else {
