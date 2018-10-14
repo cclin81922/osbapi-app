@@ -19,10 +19,18 @@ spec:
         app: {{ template "osbapiapp.name" . }}
         release: {{ .Release.Name }}
     spec:
+      volumes:
+      - name: osbapi-app-secret-vol
+        secret:
+          secretName: osbapi-app-secret
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+          - name: osbapi-app-secret-vol
+            mountPath: "/etc/osbapi-svc-credential"
+            readOnly: true
           ports:
             - name: http
               containerPort: 80
