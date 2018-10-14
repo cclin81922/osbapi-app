@@ -2,6 +2,8 @@
 
 osbapi-broker is up and running. See https://github.com/cclin81922/osbapi-broker
 
+osbapi-baas is up and running. See https://github.com/cclin81922/osbapi-baas
+
 # Bind service
 
 ```console
