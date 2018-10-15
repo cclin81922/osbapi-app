@@ -15,25 +15,20 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"time"
+	"testing"
 
 	"github.com/cclin81922/osbapi-sdk/pkg/osbapisdk"
 )
 
-func echo(message string) (reply string, err error) {
-	return osbapisdk.Echo(message)
-}
+func TestEcho(t *testing.T) {
+	osbapisdk.Setup("../../pki/baseurl", "../../pki/ca.cert.pem", "../../pki/client.key.pem", "../../pki/client.cert.pem")
 
-func main() {
-	for now := range time.Tick(3 * time.Second) {
-		message := fmt.Sprintf("%s", now)
-		reply, err := echo(message)
-		if err != nil {
-			log.Println(err)
-		} else {
-			log.Println(reply)
-		}
+	message := "hi"
+	reply, err := echo(message)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if reply != message {
+		t.Fatalf("reply error | expected %s | got %s", message, reply)
 	}
 }

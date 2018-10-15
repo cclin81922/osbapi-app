@@ -1,19 +1,33 @@
-# Prerequisite
+# Installation
 
-osbapi-broker is up and running. See https://github.com/cclin81922/osbapi-broker
-
-osbapi-baas is up and running. See https://github.com/cclin81922/osbapi-baas
-
-# Bind service
-
-```console
-$ make provision-svc
-# make bind-svc
+```
+go get -u github.com/cclin81922/osbapi-app/cmd/osbapiapp
+export PATH=$PATH:~/go/bin
 ```
 
-# Deploy app using Helm
+# Command Line Usage
 
-```console
-$ TAG=latest PULL=Never make deploy-app
+```
+osbapiapp
 ```
 
+# Deploy osbapiapp Using Helm
+
+```
+make provision-svc
+make bind-svc
+make deploy-app
+```
+
+# For Developer
+
+Run all tests
+
+```
+go get -u github.com/cclin81922/osbapi-baas/cmd/osbapibaas
+export PATH=$PATH:~/go/bin
+osbapibaas -port=8443
+
+echo "127.0.0.1   localhost.localdomain" >> /etc/hosts
+go test github.com/cclin81922/osbapi-app/cmd/osbapiapp
+```
