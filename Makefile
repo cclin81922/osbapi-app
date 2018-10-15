@@ -5,7 +5,7 @@ endif
 
 IMAGE ?= asia.gcr.io/k8s-project-199813/osbapi-app
 TAG ?= $(shell git describe --tags --always)
-PULL ?= IfNotPresent
+PULL ?= Never
 
 build: ## Builds the app
 	go build -i github.com/cclin81922/osbapi-app/cmd/osbapiapp
@@ -61,4 +61,4 @@ help: ## Shows the help
         awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 	@echo ''
 
-.PHONY: build linux image clean push deploy-app remove-app provision-svc unprovision-svc bind-svc unbind-svc help
+.PHONY: build linux image clean push deploy-app remove-app create-ns remove-ns provision-svc unprovision-svc bind-svc unbind-svc help
