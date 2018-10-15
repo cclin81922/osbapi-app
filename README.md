@@ -8,7 +8,11 @@ export PATH=$PATH:~/go/bin
 # Command Line Usage
 
 ```
-osbapiapp
+BASE=~/go/src/github.com/cclin81922/osbapi-app/pki/baseurl
+CA=~/go/src/github.com/cclin81922/osbapi-app/pki/ca.cert.pem
+KEY=~/go/src/github.com/cclin81922/osbapi-app/pki/client.key.pem
+CERT=~/go/src/github.com/cclin81922/osbapi-app/pki/client.cert.pem
+osbapiapp -base=$BASE -ca=$CA -key=$KEY -cert=$CERT
 ```
 
 # Deploy osbapiapp Using Helm

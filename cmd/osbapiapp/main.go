@@ -15,12 +15,30 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"time"
 
 	"github.com/cclin81922/osbapi-sdk/pkg/osbapisdk"
 )
+
+var (
+	flagBaseURL  string
+	flagCAFile   string
+	flagKeyFile  string
+	flagCertFile string
+)
+
+func init() {
+	flag.StringVar(&flagBaseURL, "base", "/etc/osbapi-svc-credential/baseurl", "Base URL file path")
+	flag.StringVar(&flagCAFile, "ca", "/etc/osbapi-svc-credential/ca", "CA file path")
+	flag.StringVar(&flagKeyFile, "key", "/etc/osbapi-svc-credential/key", "Client key file path")
+	flag.StringVar(&flagCertFile, "cert", "/etc/osbapi-svc-credential/cert", "Client cert file path")
+	flag.Parse()
+
+	osbapisdk.Setup(flagBaseURL, flagCAFile, flagKeyFile, flagCertFile)
+}
 
 func echo(message string) (reply string, err error) {
 	return osbapisdk.Echo(message)
